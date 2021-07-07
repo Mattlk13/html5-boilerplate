@@ -18,12 +18,13 @@ const expectedFilesInDistDir = [
   '.gitignore',
   '.htaccess',
   '404.html',
+  'package.json',
   'browserconfig.xml',
 
   'css/', // for directories, a `/` character
   // should be included at the end
-  'css/main.css',
   'css/normalize.css',
+  'css/style.css',
 
   'doc/',
   'doc/TOC.md',
@@ -46,10 +47,8 @@ const expectedFilesInDistDir = [
   'index.html',
 
   'js/',
-  'js/main.js',
-  'js/plugins.js',
+  'js/app.js',
   'js/vendor/',
-  `js/vendor/jquery-${pkg.devDependencies.jquery}.min.js`,
   `js/vendor/modernizr-${pkg.devDependencies.modernizr}.min.js`,
 
   'LICENSE.txt',
@@ -67,6 +66,12 @@ function checkFiles(directory, expectedFiles) {
   // Get the list of files from the specified directory
   const files = glob.sync('**/*', {
     'cwd': directory,
+    'ignore': [
+      '**/node_modules/**',
+      'package-lock.json',
+      '**/dist/**',
+      '**/.cache/**',
+    ],
     'dot': true,      // include hidden files
     'mark': true      // add a `/` character to directory matches
   });
